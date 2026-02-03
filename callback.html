@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fitbit Callback</title>
+</head>
+<body>
+  <p>Redirecting back to app…</p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const error = params.get("error");
+    const state = params.get("state");
+
+    if (error) {
+      document.body.innerText = "OAuth error: " + error;
+    } else if (code) {
+      // Öffnet deine Android-App per Deep Link
+      const target =
+        "com.example.pa1://oauth2redirect" +
+        "?code=" + encodeURIComponent(code) +
+        (state ? "&state=" + encodeURIComponent(state) : "");
+
+      window.location.replace(target);
+    } else {
+      document.body.innerText = "No code parameter found. Query=" + window.location.search;
+    }
+  </script>
+</body>
+</html>
